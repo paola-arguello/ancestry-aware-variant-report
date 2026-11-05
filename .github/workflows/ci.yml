@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  python:
+    name: Lint and unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install ruff pytest
+      - run: ruff check .
+      - run: ruff format --check .
+      - run: pytest
+
+  # Added once tests/data is in place:
+  # pipeline:
+  #   name: nextflow run -profile test,docker
+  #   needs: python
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - uses: nf-core/setup-nextflow@v2
+  #     - run: docker build -t ancestry-aware-variant-report:0.1.0 .
+  #     - run: nextflow run main.nf -profile test,docker
