@@ -1,0 +1,18 @@
+[project]
+name = "ancestry-aware-variant-report"
+version = "0.1.0.dev0"
+description = "Python helpers for the ancestry-aware-variant-report Nextflow pipeline"
+requires-python = ">=3.10"
+
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+src = ["bin", "scripts"]
+
+[tool.ruff.lint]
+# pycodestyle (PEP8) errors and warnings, pyflakes, import sorting, naming
+select = ["E", "W", "F", "I", "N"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests/unit"]
+pythonpath = ["bin", "scripts"]
