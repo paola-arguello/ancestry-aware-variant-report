@@ -1,0 +1,15 @@
+# Downloaded resources (recreate with scripts/download_data.sh)
+data/
+
+# Nextflow
+work/
+.nextflow/
+.nextflow.log*
+results/
+results-test/
+
+# Python
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+*.pyc
