@@ -1,5 +1,6 @@
 import io
 import json
+import urllib.error
 
 import pytest
 
@@ -54,3 +55,39 @@ def test_merge_records_joins_overlaps_and_sorts():
 def test_lookup_gene_uses_rest_payload():
     gene = make_panel_bed.lookup_gene("BRCA1", opener=fake_opener(BRCA1))
     assert gene["seq_region_name"] == "17"
+
+
+def flaky_opener(failures, code=503):
+    calls = {"n": 0}
+
+    def opener(request):
+        calls["n"] += 1
+        if calls["n"] <= failures:
+            raise urllib.error.HTTPError(request.full_url, code, "busy", {}, None)
+        return io.BytesIO(json.dumps(BRCA1).encode())
+
+    return opener, calls
+
+
+def test_get_json_retries_when_server_is_busy():
+    opener, calls = flaky_opener(failures=2)
+    result = make_panel_bed.get_json(
+        "https://example.org/x", opener, sleep=lambda s: None
+    )
+    assert result["seq_region_name"] == "17"
+    assert calls["n"] == 3
+
+
+def test_get_json_gives_up_after_last_try():
+    opener, _ = flaky_opener(failures=10)
+    with pytest.raises(urllib.error.HTTPError):
+        make_panel_bed.get_json(
+            "https://example.org/x", opener, tries=3, sleep=lambda s: None
+        )
+
+
+def test_get_json_does_not_retry_not_found():
+    opener, calls = flaky_opener(failures=1, code=404)
+    with pytest.raises(urllib.error.HTTPError):
+        make_panel_bed.get_json("https://example.org/x", opener, sleep=lambda s: None)
+    assert calls["n"] == 1

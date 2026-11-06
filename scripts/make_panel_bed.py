@@ -14,6 +14,8 @@ import argparse
 import datetime
 import json
 import sys
+import time
+import urllib.error
 import urllib.request
 
 ENSEMBL = "https://rest.ensembl.org"
@@ -25,10 +27,22 @@ def read_genes(path):
     return [line for line in lines if line and not line.startswith("#")]
 
 
-def get_json(url, opener=urllib.request.urlopen):
-    request = urllib.request.Request(url, headers={"Content-Type": "application/json"})
-    with opener(request) as response:
-        return json.load(response)
+RETRY_CODES = {429, 500, 502, 503, 504}
+
+
+def get_json(url, opener=urllib.request.urlopen, tries=5, wait=10, sleep=time.sleep):
+    """Fetch JSON, waiting and retrying when the server is busy or down."""
+    request = urllib.request.Request(url, headers={"Accept": "application/json"})
+    for attempt in range(1, tries + 1):
+        try:
+            with opener(request) as response:
+                return json.load(response)
+        except urllib.error.HTTPError as error:
+            if error.code not in RETRY_CODES or attempt == tries:
+                raise
+            print(f"Ensembl returned {error.code}, retry {attempt} in {wait} s")
+            sleep(wait)
+            wait *= 2
 
 
 def lookup_gene(symbol, opener=urllib.request.urlopen):
@@ -73,7 +87,10 @@ def main(argv=None):
     args = parser.parse_args(argv)
 
     symbols = read_genes(args.genes)
-    records = [bed_record(lookup_gene(s), s, args.pad) for s in symbols]
+    records = []
+    for symbol in symbols:
+        records.append(bed_record(lookup_gene(symbol), symbol, args.pad))
+        time.sleep(0.2)  # stay well under Ensembl's rate limit
     write_bed(merge_records(records), args.bed)
 
     with open(args.bed + ".provenance.txt", "w") as handle:
