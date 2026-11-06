@@ -1,0 +1,10 @@
+name: ancestry-aware-variant-report
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - python=3.12
+  - bcftools=1.21
+  - samtools=1.21
+  - htslib=1.21
+  - jinja2=3.1

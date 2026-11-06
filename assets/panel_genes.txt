@@ -1,0 +1,15 @@
+# Hereditary cancer panel, v0.1 (modelled on common commercial panels; not a validated clinical panel)
+BRCA1
+BRCA2
+PALB2
+TP53
+PTEN
+CDH1
+STK11
+MLH1
+MSH2
+MSH6
+PMS2
+EPCAM
+ATM
+CHEK2
