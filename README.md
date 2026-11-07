@@ -14,6 +14,8 @@ I built it to show how the frequency evidence behind a variant interpretation de
 - Tested: the Python helpers have unit tests (pytest) that run in CI with ruff.
 - Not yet done: the Nextflow modules have not been run end to end on real data. `TRIAGE`, `REPORT` and the bundled test dataset for `-profile test` are next.
 
+Every choice in this pipeline (which genes, which regions, which data versions) is explained in [`docs/decisions.md`](docs/decisions.md).
+
 ## What it does
 
 | Step | Tool | What it does |
