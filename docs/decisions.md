@@ -120,3 +120,27 @@ This repo uses coding exons because the report is meant to look like a diagnosti
 **What this gives up:** No statement about calling accuracy. That needs reads, a caller and a genotype-aware comparison tool such as hap.py, which is on the roadmap.
 
 **Sources:** [GIAB benchmark description]
+
+---
+
+## D8. Two real genomes, one synthetic patient
+
+**Decision:** The pipeline uses three inputs, each with one job:
+
+| Input | Who it is | Job in this project |
+|---|---|---|
+| HG002 | A man of Ashkenazi Jewish ancestry, from the GIAB family trio | Known-answer validation (D7), and one side of the ancestry comparison |
+| HG00733 | A Puerto Rican individual from 1000 Genomes (Admixed American group) | The other side of the ancestry comparison. No validation, because no benchmark exists for this sample. |
+| PatientA | Synthetic: HG002 plus a few ClinVar variants added on purpose | Demonstrating the report. Has a made-up clinical history, clearly labelled. |
+
+**Why:** GIAB benchmarks exist only for Ashkenazi Jewish, European and Han Chinese genomes. HG00733 is one of the best-studied Latin American genomes: it has long-read data and has been used as a "silver-standard" sample because GIAB doesn't cover this ancestry. Running both genomes through the same pipeline and panels shows *how* reference data shapes interpretation: how many variants have a ClinVar classification, and how many people stand behind each gnomAD frequency.
+
+Real genomes never get invented clinical stories. Only PatientA, which is synthetic, has a family history.
+
+**What this gives up:** Two genomes show the mechanism, they do not measure a difference between groups. For the size of the effect, the write-up cites cohort studies instead [Caswell-Jin et al. 2018; Ndugga-Kabuye and Issaka 2019]. HG00733 is one person, and "Latin American" is not one population.
+
+**Sources:**
+- Lin et al. Improving variant calling using population data and deep learning. *BMC Bioinformatics* 2023 (HG00733 as a silver-standard sample). https://link.springer.com/article/10.1186/s12859-023-05294-0
+- Caswell-Jin JL, et al. Racial/ethnic differences in multiple-gene sequencing results for hereditary cancer risk. *Genet Med* 2018.
+- Ndugga-Kabuye MK, Issaka RB. Inequities in multi-gene hereditary cancer testing. *Fam Cancer* 2019. https://pmc.ncbi.nlm.nih.gov/articles/PMC6785397
+- [Source for the HG00733 high-coverage VCF: to confirm]
