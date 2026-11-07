@@ -1,0 +1,5 @@
+source: https://search.clinicalgenome.org/kb/gene-validity
+downloaded: 2026-11-06T18:57-07:00
+by: Paola Arguello Pascualli, manual export of the full table from the website
+sha256: b7abf7b623aa92fae7c870a27ba57f97416b25f891bc70141b0f4e04a95516ce  clingen_gene_validity_20261106T1857-0700.csv
+rows: 3727 curations plus 1 header line
