@@ -140,7 +140,7 @@ Real genomes never get invented clinical stories. Only PatientA, which is synthe
 **What this gives up:** Two genomes show the mechanism, they do not measure a difference between groups. For the size of the effect, the write-up cites cohort studies instead [Caswell-Jin et al. 2018; Ndugga-Kabuye and Issaka 2019]. HG00733 is one person, and "Latin American" is not one population.
 
 **Sources:**
-- Lin et al. Improving variant calling using population data and deep learning. *BMC Bioinformatics* 2023 (HG00733 as a silver-standard sample). https://link.springer.com/article/10.1186/s12859-023-05294-0
+- Improving variant calling using population data and deep learning. *BMC Bioinformatics* 2023 (HG00733 as a silver-standard sample) [first author to confirm]. https://link.springer.com/article/10.1186/s12859-023-05294-0
 - Caswell-Jin JL, et al. Racial/ethnic differences in multiple-gene sequencing results for hereditary cancer risk. *Genet Med* 2018.
 - Ndugga-Kabuye MK, Issaka RB. Inequities in multi-gene hereditary cancer testing. *Fam Cancer* 2019. https://pmc.ncbi.nlm.nih.gov/articles/PMC6785397
 - [Source for the HG00733 high-coverage VCF: to confirm]
